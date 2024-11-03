@@ -1,33 +1,35 @@
 <template>
-  <div>
-      <h1>영화제목</h1>
-      <div v-for="(movie, i) in data" :key="i" class="item">
-        <figure>
-          <img :src="`${movie.imgUrl}`" :alt="movie.title">
-        </figure>
-        <div class="info">
-          <h3 class="text" :style="movie.style">{{ movie.title }}</h3>
-          <p> 개봉: {{ movie.year }}</p>
-          <p>장르: {{ movie.category }}</p>
-          <button @:click="increseLike(i)">좋아요</button>
-          <span>{{ movie.like }}</span>
-          <p>
-            <button @click="isModal=true; selectedMovie=i">상세보기</button>
-          </p>
-        </div>
+  <Navbar />
+  <Event :text= "text" />
+    <h1>영화제목</h1>
+    <div v-for="(movie, i) in data" :key="i" class="item">
+      <figure>
+        <img :src="`${movie.imgUrl}`" :alt="movie.title">
+      </figure>
+      <div class="info">
+        <h3 class="text" :style="movie.style">{{ movie.title }}</h3>
+        <p> 개봉: {{ movie.year }}</p>
+        <p>장르: {{ movie.category }}</p>
+        <button @:click="increseLike(i)">좋아요</button>
+        <span>{{ movie.like }}</span>
+        <p>
+          <button @click="isModal=true; selectedMovie=i">상세보기</button>
+        </p>
       </div>
-      <div class="modal" v-if="isModal">
-          <div class="inner">
-            <h3>{{ data[selectedMovie].title }}</h3>
-            <p>영화 상세정보</p>
-            <button @click="isModal=false">닫기</button>
-          </div>
-      </div>
-  </div>
+    </div>
+    <Modal
+      :data="data"
+      :isModal="isModal"
+      :selectedMovie="selectedMovie"
+      @closeModal="isModal=false"
+    />
 </template>
 
 <script>
 import data from './assets/movies';
+import Navbar from './components/Navbar.vue';
+import Modal from './components/Modal.vue';
+import Event from './components/Event.vue';
 
   export default {
     name : 'App',
@@ -36,12 +38,18 @@ import data from './assets/movies';
         isModal: false,
         data: data,
         selectedMovie: 0,
+        text: "NEPLIX 강렬한 운명의 드라마, 경성크래처",
       }
     },
     methods: {
       increseLike(i) {
         this.data[i].like += 1;
       }
+    },
+    components: {
+      Navbar: Navbar,
+      Event: Event,
+      Modal: Modal,
     }
   }
 </script>
