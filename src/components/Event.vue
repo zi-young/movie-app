@@ -1,6 +1,7 @@
 <template>
-      <div class="event">
+      <div class="event" :class="{show : isOpen}">
          <p>{{text}}</p>
+         <button @click="isOpen= false">X</button>
       </div>
 </template>
    
@@ -9,7 +10,13 @@
       name: "EventComponent",
       props: {
          text: String,
-      }
+         isEventOpen: Boolean,
+      },
+      data() {
+         return {
+            isOpen: true
+         }
+      },
    }
 </script>
    
@@ -20,9 +27,21 @@
       color: #fff;
       text-align: center;
       font-size: small;
-      vertical-align: middle;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      display: none;
    }
+
+   .show{
+      display: flex;
+   }
+
    .event  p{
+      margin: 0;
+   }
+
+   .event button{
       margin: 0;
    }
 </style>
